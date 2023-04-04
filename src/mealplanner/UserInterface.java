@@ -8,7 +8,7 @@ public class UserInterface {
 
     private final Scanner scan;
 
-    private List<Meal> meals = new ArrayList<>();
+    private final List<Meal> meals = new ArrayList<>();
 
     public UserInterface(Scanner scan) {
         this.scan = scan;
@@ -36,9 +36,9 @@ public class UserInterface {
 
     public void add() {
         System.out.println("Which meal do you want to add (breakfast, lunch, dinner)?");
-        String name = null;
-        Category category = null;
-        String[] ingredients = null;
+        String name;
+        Category category;
+        String[] ingredients;
 
         while (true) {
             String categoryString = scan.nextLine().toUpperCase();
@@ -63,7 +63,7 @@ public class UserInterface {
 
         while (true) {
             String input = scan.nextLine();
-            if (input.equals("") || !input.matches("^[a-zA-Z]+(?:[\\s]+[a-zA-Z]+|[\\s]*,[\\s]*[a-zA-Z]+)*$")) {
+            if (input.equals("") || !input.matches("^[a-zA-Z]+(?:\\s+[a-zA-Z]+|\\s*,\\s*[a-zA-Z]+)*$")) {
                 System.out.println("Wrong format. Use letters only!");
             } else {
                 ingredients = input.split(",");
