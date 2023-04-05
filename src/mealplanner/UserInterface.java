@@ -17,8 +17,8 @@ public class UserInterface {
     }
 
     public void start(Connection connection) throws SQLException {
-        boolean loopOn = true;
 
+        boolean loopOn = true;
         while (loopOn) {
             System.out.println("What would you like to do (add, show, exit)?");
             String input = scan.nextLine();
@@ -30,8 +30,6 @@ public class UserInterface {
                     connection.close();
                     loopOn = false;
                     System.out.println("Bye!");
-                }
-                default -> {
                 }
             }
         }
@@ -46,7 +44,7 @@ public class UserInterface {
 
         while (true) {
             String categoryString = scan.nextLine().toUpperCase();
-            if (!"BREAKFAST LUNCH DINNER".contains(categoryString) || categoryString.equals("")) {
+            if (!"BREAKFAST LUNCH DINNER".contains(categoryString)) {
                 System.out.println("Wrong meal category! Choose from: breakfast, lunch, dinner.");
             } else {
                 category = Category.valueOf(categoryString);
@@ -67,14 +65,11 @@ public class UserInterface {
 
         while (true) {
             String input = scan.nextLine();
-            if (input.equals("") || !input.matches("^[a-zA-Z]+(?:\\s+[a-zA-Z]+|\\s*,\\s*[a-zA-Z]+)*$")) {
+            String stripped = input.replaceAll("\\s", "");
+            if (!input.matches("([a-zA-Z]+,? ?)+(?<!,)(?<! )")) {
                 System.out.println("Wrong format. Use letters only!");
             } else {
-                if (input.contains(" ")) {
-                    ingredients = input.split(", ");
-                } else {
-                    ingredients = input.split(",");
-                }
+                ingredients = stripped.split(",");
                 break;
             }
         }
@@ -100,8 +95,7 @@ public class UserInterface {
         if (rs1.next()) {
             Statement statement2 = connection.createStatement();
             do {
-                System.out.println();
-                System.out.println("Category: " + rs1.getString("category"));
+                System.out.println("\nCategory: " + rs1.getString("category"));
                 System.out.println("Name: " + rs1.getString("meal"));
                 int meal_id = rs1.getInt("meal_id");
                 ResultSet rs2 = statement2.executeQuery("select * from ingredients WHERE meal_id = %d".formatted(meal_id));
@@ -116,8 +110,7 @@ public class UserInterface {
             System.out.println();
             statement2.close();
         } else {
-            System.out.println();
-            System.out.println("No meals saved. Add a meal first.");
+            System.out.println("\nNo meals saved. Add a meal first.");
         }
         statement1.close();
 
