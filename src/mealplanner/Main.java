@@ -20,18 +20,24 @@ public class Main {
     UserInterface ui = new UserInterface(scan, connection);
     Statement statement = connection.createStatement();
 //    statement.executeUpdate("drop table if exists ingredients");
-//    statement.executeUpdate("drop table if exists meals");
     statement.executeUpdate("create table IF NOT EXISTS meals(" +
             "meal_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY," +
             "category varchar(30)," +
             "meal varchar(30) NOT NULL" +
             ")");
     statement.executeUpdate("create table IF NOT EXISTS ingredients(" +
-            "ingredient varchar(30) NOT NULL," +
+            "ingredient varchar(100) NOT NULL," +
             "ingredient_id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY," +
             "meal_id INT" +
             ")");
+    statement.executeUpdate("create table IF NOT EXISTS plan(" +
+            "meal_option varchar(30) NOT NULL," +
+            "category varchar(30)," +
+            "weekday varchar(20)," +
+            "meal_id INT" +
+            ")");
     statement.executeUpdate("ALTER TABLE ingredients ADD FOREIGN KEY(meal_id) REFERENCES meals(meal_id)");
+    statement.executeUpdate("ALTER TABLE plan ADD FOREIGN KEY(meal_id) REFERENCES meals(meal_id)");
     statement.close();
     ui.start(connection);
     connection.close();

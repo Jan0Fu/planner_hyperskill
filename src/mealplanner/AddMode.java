@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AddMode {
@@ -21,7 +23,7 @@ public class AddMode {
         System.out.println("Which meal do you want to add (breakfast, lunch, dinner)?");
         String mealName;
         Category category;
-        String[] ingredients;
+        List<String> ingredients = new ArrayList<>();
 
         while (true) {
             String categoryString = scan.nextLine().toUpperCase();
@@ -46,11 +48,13 @@ public class AddMode {
 
         while (true) {
             String input = scan.nextLine();
-            String stripped = input.replaceAll("\\s", "");
             if (!input.matches("([a-zA-Z]+,? ?)+(?<!,)(?<! )")) {
                 System.out.println("Wrong format. Use letters only!");
             } else {
-                ingredients = stripped.split(",");
+                String[] parts = input.split(",");
+                for (String i: parts) {
+                    ingredients.add(i.trim());
+                }
                 break;
             }
         }

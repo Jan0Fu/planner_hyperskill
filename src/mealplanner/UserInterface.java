@@ -9,23 +9,26 @@ public class UserInterface {
     private final Scanner scan;
     private final AddMode addMode;
     private final ShowMode showMode;
+    private final PlanMode planMode;
 
     public UserInterface(Scanner scan, Connection connection) {
         this.scan = scan;
         this.addMode = new AddMode(scan, connection);
         this.showMode = new ShowMode(scan, connection);
+        this.planMode = new PlanMode(scan, connection);
     }
 
     public void start(Connection connection) throws SQLException {
 
         boolean loopOn = true;
         while (loopOn) {
-            System.out.println("What would you like to do (add, show, exit)?");
+            System.out.println("What would you like to do (add, show, plan, exit)?");
             String input = scan.nextLine();
 
             switch (input) {
                 case "add" -> addMode.add();
                 case "show" -> showMode.show();
+                case "plan" -> planMode.plan();
                 case "exit" -> {
                     connection.close();
                     loopOn = false;
