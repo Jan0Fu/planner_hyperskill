@@ -41,9 +41,7 @@ public class ShowMode {
                 ResultSet rs2 = statement2.executeQuery("select * from ingredients WHERE meal_id=%d ORDER BY ingredient_id".formatted(meal_id));
                 System.out.println("Ingredients:");
                 while (rs2.next()) {
-                    if (meal_id == rs2.getInt("meal_id")) {
-                        System.out.println(rs2.getString("ingredient"));
-                    }
+                    System.out.println(rs2.getString("ingredient"));
                 }
             }
             while (rs1.next());
